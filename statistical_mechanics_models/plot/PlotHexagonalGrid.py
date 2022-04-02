@@ -1,4 +1,3 @@
-
 import matplotlib.pyplot as plt
 import math
 import matplotlib as mpl
@@ -28,7 +27,8 @@ class HexPlot:
             edgecolor = facecolor
         X,Y = self.GenHexCorners(center)
         self.plt.fill(X, Y,facecolor = facecolor, edgecolor = edgecolor, linewidth=0.1)
-       
+        #plt.fill(X, Y,facecolor='blue', edgecolor='purple', linewidth=3)
+        
     def Show(self):
         self.plt.axis('equal')
         self.plt.show()
@@ -55,6 +55,7 @@ class HexPlot:
         
         for x in range(wDim):
             for y in range(hDim):
+                #Compute the correct centers
                 center = self.ComputeCenterOfHexagon(x,y)
                 self.PlotHexagon(center = (center[0][0],center[1][0]),facecolor=COLOR_FIELD[y][x], edgecolor=edgecolor)
 
@@ -165,12 +166,7 @@ class HexPlot:
         
     def PlotCircle(self,center = (0,0),facecolor='lightsalmon', edgecolor='orangered'):
         self.plt.plot(center[0],center[1], markersize = 1,marker='o', color=facecolor)
- 
-
- 
-
-
-
+         
 
 
         

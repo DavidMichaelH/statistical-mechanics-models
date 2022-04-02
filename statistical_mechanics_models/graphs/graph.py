@@ -11,7 +11,6 @@ class Graph(object):
         "Returns the nodes of the graph."
         return list(self.nodes_dict.keys())
     
-
     
     def vertexValue(self, node):
         "Returns the value of a vertex."

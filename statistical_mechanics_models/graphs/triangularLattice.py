@@ -1,34 +1,9 @@
+from graphs.planar_weighted_lattice import PlanarWeightedLattice
 
 
-
-# nodes_dict => dictionary {node : weight of node}
-# adj_dict => {node : [node1,node2,...,nodek]}  "Node is key and neighbors are value"
-
-
-from graph import GraphSite
-
-
-class TriangularLattice(GraphSite):
-
-   def CreateTriangularLattice(self, field):
-
-        self.width = len(field[:][0])
-        self.height = len(field[0])
-
-        # Create the nodes dictionary
-
-        # Initialize vertices
-        for w in range(0, self.width):
-            for h in range(0, self.height):
-                self.nodes_dict[(w, h)] = field[h][w]
-
-        # Initialize edges
-        for x in range(0, self.width):
-            for y in range(0, self.height):
-                self.adj_dict[(x, y)] = self.GetNeighbors(x, y)
-
-
-   def GetNeighbors(self,x,y):
+class TriangularLattice(PlanarWeightedLattice):
+ 
+    def GetNeighbors(self,x,y):
         NeighborsList = []
         
         if y < self.width-1:

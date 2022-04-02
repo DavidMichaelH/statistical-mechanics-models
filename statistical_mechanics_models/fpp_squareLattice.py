@@ -1,19 +1,16 @@
-# -*- coding: utf-8 -*-
-"""
-This is where you define the graph and model for the weights
-"""
-
-from square_lattice import SquareLattice
-from fpp import FPP
+from graphs.square_lattice import SquareLattice
+from first_passage_percolation.fpp import FPP
 import random
 import math
 import matplotlib.pyplot as plt
+
+ 
 
 #Define the lattice, in this case we will use the square lattice
 height = 100
 width = 100
 mySquareLattice = SquareLattice()
-mySquareLattice.CreateSquareLattice(height, width)
+mySquareLattice.CreateLattice(height, width)
 #So far a graph has been defined but has zero vertex/edge weights and 
 #and only contains topological data  
 
