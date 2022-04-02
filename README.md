@@ -2,7 +2,9 @@
 Statistical mechanics models such as random cluster models, random growth models and related processes.
 
 
-
+<div align="center">
+  <img src="https://raw.githubusercontent.com/DavidMichaelH/StatisticalMechanicsModels/main/.github/images/BernoulliFPPGlamourShot.png">
+</div>
 
 
 ## Contributing
