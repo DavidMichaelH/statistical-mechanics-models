@@ -1,7 +1,7 @@
 # StatisticalMechanicsModels
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/DavidMichaelH/StatisticalMechanicsModels/main/.github/images/BernoulliFPPGlamourShot.png" style="width:300px;height:300px;">
+  <img src="https://raw.githubusercontent.com/DavidMichaelH/StatisticalMechanicsModels/main/.github/images/CrossingFPPGlamourShot.png" style="width:300px;height:300px;">
 </div>
 
 Statistical mechanics models such as random cluster models, random growth models and related processes.
