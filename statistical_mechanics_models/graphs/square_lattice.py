@@ -5,20 +5,20 @@ class SquareLattice(PlanarWeightedLattice):
     
  
     #This could be overridden from some generic class 
-    def GetNeighbors(self,x,y):
+    def GetNeighbors(self,w,h):
         NeighborsList = []
         
-        if y < self.width-1:
-            NeighborsList.append((x,y+1))
+        if h < self.height-1:
+            NeighborsList.append((w,h+1))
         
-        if y > 0:
-            NeighborsList.append((x,y-1))
+        if h > 0:
+            NeighborsList.append((w,h-1))
             
-        if x < self.height-1:
-            NeighborsList.append((x+1,y))
+        if w < self.width-1:
+            NeighborsList.append((w+1,h))
             
-        if x > 0:
-            NeighborsList.append((x-1,y))
+        if w > 0:
+            NeighborsList.append((w-1,h))
             
         return NeighborsList
     

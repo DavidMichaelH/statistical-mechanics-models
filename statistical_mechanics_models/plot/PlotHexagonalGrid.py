@@ -44,8 +44,8 @@ class HexPlot:
             COLOR_FIELD = self.ComputeColorField(field,colorMap=continuousColor)
             
 
-        wDim = len(COLOR_FIELD[:][0])
-        hDim = len(COLOR_FIELD[0]) 
+        wDim = len(COLOR_FIELD[0])
+        hDim = len(COLOR_FIELD) 
   
         if max(wDim,hDim) < 125:
             edgecolor='blue'
@@ -85,10 +85,9 @@ class HexPlot:
         
    
         
-        width = len(field[:][0])
-        height = len(field[0]) 
-        
-        
+        width = len(field[0])
+        height = len(field) 
+         
         MAX_VAL = -sys.maxsize
         MIN_VAL = sys.maxsize
         
@@ -96,10 +95,11 @@ class HexPlot:
         # First scan to find min an max
         for x in range(width):
             for y in range(height):
-             if MAX_VAL < field[y][x] :
-                 MAX_VAL = field[y][x] 
-             if MIN_VAL > field[y][x] :
-                 MIN_VAL = field[y][x] 
+                if MAX_VAL < field[y][x] :
+                    MAX_VAL = field[y][x] 
+                if MIN_VAL > field[y][x] :
+                    MIN_VAL = field[y][x] 
+             
  
         norm = mpl.colors.Normalize(vmin=MIN_VAL, vmax=MAX_VAL)
         
@@ -137,8 +137,8 @@ class HexPlot:
     def ComputeBinaryColorField(self,field, colors = ["blue","red"] , colorThresh = 0):
          
   
-        width = len(field[:][0])
-        height = len(field[0]) 
+        width = len(field[0])
+        height = len(field) 
         
  
         COLOR_FIELD = [[colors[0]]* width for i in range(height)]

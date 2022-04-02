@@ -6,7 +6,7 @@ from plot.PlotHexagonalGrid import HexPlot
 
 #Define the lattice, in this case we will use the square lattice
 height = 100
-width = 100
+width = 200
 myTriangularLattice = TriangularLattice()
 myTriangularLattice.CreateLattice(height, width)
 #So far a graph has been defined but has zero vertex/edge weights and 
@@ -32,7 +32,9 @@ def MyVertexWeight():
     return Bernoulli()
 
 
-## here we define the model by setting vertex weights to simulate and i.i.d.
+## here we define the model by setting edge weights to simulate and i.i.d.
+# edge weight assignment being careful to note that the graph maintains 
+# a directed set of edges and so both directions should record equal value 
 
 # Initialize vertices
 for w in range(0, width):
@@ -43,13 +45,13 @@ for w in range(0, width):
         
 #Create a Triangular Lattice 
 START_NODE = (width//2,height//2)
-
+START_NODE = (0,height//2)
 myFppModel = FPP(myTriangularLattice,start_node = START_NODE)
 shortest_path_field = myFppModel.ComputeDistanceField()
 
-passageTime , TARGET_NODE = myFppModel.PassageTimeToBoundary()
-print("Passage time = " + str(passageTime))
-   
+#passageTime , TARGET_NODE = myFppModel.PassageTimeToBoundary()
+#print("Passage time = " + str(passageTime))
+TARGET_NODE = (width-1,height//2)
 Geodesic = myFppModel.ComputeGeodesic(TARGET_NODE)
 
  

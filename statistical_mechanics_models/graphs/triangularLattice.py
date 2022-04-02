@@ -1,3 +1,4 @@
+
 from graphs.planar_weighted_lattice import PlanarWeightedLattice
 
 
@@ -6,13 +7,13 @@ class TriangularLattice(PlanarWeightedLattice):
     def GetNeighbors(self,x,y):
         NeighborsList = []
         
-        if y < self.width-1:
+        if y < self.height-1:
             NeighborsList.append((x,y+1))
         
         if y > 0:
             NeighborsList.append((x,y-1))
             
-        if x < self.height-1:
+        if x < self.width-1:
             NeighborsList.append((x+1,y))
             
         if x > 0:

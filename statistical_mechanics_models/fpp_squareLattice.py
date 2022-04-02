@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
  
 
 #Define the lattice, in this case we will use the square lattice
-height = 100
+height = 75
 width = 100
 mySquareLattice = SquareLattice()
 mySquareLattice.CreateLattice(height, width)
@@ -65,14 +65,16 @@ for h in range(0,height-1):
 
 
 START_NODE = (width//2,height//2)
+START_NODE = (0,height//2)
 myFppModel = FPP(mySquareLattice,start_node = START_NODE)
 shortest_path_field = myFppModel.ComputeDistanceField()
 
 
 
-passageTime , TARGET_NODE = myFppModel.PassageTimeToBoundary()
-print("Passage time = " + str(passageTime))
-   
+#passageTime , TARGET_NODE = myFppModel.PassageTimeToBoundary()
+
+#print("Passage time = " + str(passageTime))
+TARGET_NODE = (width-1,height//2)
 Geodesic = myFppModel.ComputeGeodesic(TARGET_NODE)
   
 
