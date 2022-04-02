@@ -32,9 +32,7 @@ def MyVertexWeight():
     return Bernoulli()
 
 
-## here we define the model by setting edge weights to simulate and i.i.d.
-# edge weight assignment being careful to note that the graph maintains 
-# a directed set of edges and so both directions should record equal value 
+## here we define the model by setting vertex weights to simulate and i.i.d.
 
 # Initialize vertices
 for w in range(0, width):
