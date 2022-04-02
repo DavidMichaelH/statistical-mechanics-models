@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/DavidMichaelH/StatisticalMechanicsModels/main/.github/images/BernoulliFPPGlamourShot.png">
+  <img src="https://raw.githubusercontent.com/DavidMichaelH/StatisticalMechanicsModels/main/.github/images/BernoulliFPPGlamourShot.png" style="width:500px;height:500px;">
 </div>
 
 # StatisticalMechanicsModels
