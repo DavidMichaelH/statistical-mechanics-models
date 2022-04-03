@@ -5,6 +5,7 @@
   <br>
   <em>Figure: Geodesic crossing. Computed using the code found in this repository (statistical_mechanical_models) </em>
 </div>
+<br>
 
 Statistical mechanics models such as random cluster models, random growth models and related processes.
 
