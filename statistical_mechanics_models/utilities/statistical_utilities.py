@@ -18,6 +18,6 @@ class StatisticalUtilities:
                     
             
     
-    def EmpericalWeightDistribution(list):
+    def EmpericalWeightDistribution(LIST):
         pass
     
