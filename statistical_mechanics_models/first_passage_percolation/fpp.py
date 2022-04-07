@@ -17,7 +17,7 @@ class FPP:
 
     def ComputeDistanceField(self):
         
-        self.dijkstra()
+        self.Dijkstra()
         self.DistanceFieldToMultiDimList()
 
         return self.distance_field_LIST
@@ -26,10 +26,10 @@ class FPP:
     
     # dijsktra with Priority Queue
 
-    def dijkstra(self):
+    def Dijkstra(self):
         visited = set()
         pQueue = []
-        heap.heappush(pQueue,(self.graph.vertexValue(self.start_node), self.start_node))
+        heap.heappush(pQueue,(self.graph.GetVertexValue(self.start_node), self.start_node))
         # We'll use this dict to save the cost of visiting each node and update it as we move along the graph
         self.distance_field = {}
         graph_distance = {}  
@@ -38,10 +38,10 @@ class FPP:
         
  
         max_value = sys.maxsize
-        for node in list(self.graph.get_nodes()):
+        for node in list(self.graph.GetNodes()):
             self.distance_field[node] = max_value
             graph_distance[node] = max_value   
-        self.distance_field[self.start_node] = self.graph.vertexValue(self.start_node)
+        self.distance_field[self.start_node] = self.graph.GetVertexValue(self.start_node)
         graph_distance[self.start_node] = 0 #  
         
         while pQueue:
@@ -83,15 +83,15 @@ class FPP:
                     
                     
             # The code block below retrieves the current node's neighbors and updates their distances
-            neighbors = self.graph.getNeighbors(current_min_node) 
+            neighbors = self.graph.GetNeighbors(current_min_node) 
 
             for neighbor in neighbors:
                 
                 if neighbor in visited:
                     continue
                 
-                tentative_value = self.distance_field[current_min_node] + self.graph.vertexValue(
-                    neighbor) +  self.graph.getEdgeWeight(current_min_node,neighbor)
+                tentative_value = self.distance_field[current_min_node] + self.graph.GetVertexValue(
+                    neighbor) +  self.graph.GetEdgeWeight(current_min_node,neighbor)
 
                 if tentative_value < self.distance_field[neighbor]:
                     self.distance_field[neighbor] = tentative_value
@@ -120,22 +120,34 @@ class FPP:
     def ComputeGeodesic(self, target_node):
         Xpath = []
         Ypath = []
+        edgeWeights = []
+        vertexWeights = []
+        
         node = target_node
+          
+        #add the weight of the target node 
+        
+        vertexWeights.insert(0, self.graph.GetVertexValue(node))
+        
         Xpath.insert(0, node[0])
         Ypath.insert(0, node[1])
-
-
+ 
         while node != self.start_node:
             next_node = self.previous_nodes[node]
-
+              
+            edgeWeights.insert(0, self.graph.GetEdgeWeight(next_node,node))
+ 
             node = next_node
             Xpath.insert(0, node[0])
             Ypath.insert(0, node[1])
+            vertexWeights.insert(0, self.graph.GetVertexValue(node))
+     
+        return (Xpath, Ypath, edgeWeights,vertexWeights)
+    
+    
+    
 
-        Xpath.insert(0, self.start_node[0])
-        Ypath.insert(0, self.start_node[1])
-
-        return (Xpath, Ypath)
+    
     
     
     #Returns passage time from self.startnode 

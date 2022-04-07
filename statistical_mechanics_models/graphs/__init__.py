@@ -1,0 +1,2 @@
+from graphs.square_lattice import SquareLattice
+from graphs.triangular_lattice import TriangularLattice

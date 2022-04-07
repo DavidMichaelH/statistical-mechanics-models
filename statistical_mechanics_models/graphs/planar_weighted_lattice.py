@@ -2,6 +2,8 @@ from graphs.graph import Graph
 
 class PlanarWeightedLattice(Graph):
      
+    
+    
     def CreateLattice(self,height,width):
     
         self.width = width
@@ -15,16 +17,21 @@ class PlanarWeightedLattice(Graph):
         # Initialize edges
         for x in range(0, self.width):
             for y in range(0, self.height):
-                self.adj_dict[(x, y)] = {x : 0 for x in self.GetNeighbors(x, y)}
+                self.adj_dict[(x, y)] = {x : 0 for x in self.GenerateNeighbors(x, y)}
                 
                 
-    def SetVertexWeight(self,node, weight):
-        self.nodes_dict[node] = weight
+    def GetEdgeWeightsOnPath(self,Xpath,Ypath):
+        edgeWeights = [];
         
-        
-    def SetEdgeWeight(self, node1, node2, weight):
-        self.adj_dict[node1][node2] = weight
-        
-        
-    def GetNeighbors(self,x,y):
+        for itr in range(len(Xpath)-1):
+            edgeWeights.append(self.GetEdgeWeight((Xpath[itr],Ypath[itr]),(Xpath[itr+1],Ypath[itr+1])))
+            
+        return edgeWeights   
+    
+    
+    def GenerateNeighbors(self,x,y):
         pass
+    
+    
+     
+    

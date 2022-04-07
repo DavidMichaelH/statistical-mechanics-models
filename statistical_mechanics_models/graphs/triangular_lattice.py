@@ -4,6 +4,8 @@ from graphs.planar_weighted_lattice import PlanarWeightedLattice
 
 class TriangularLattice(PlanarWeightedLattice):
  
+        
+ 
     def GetNeighbors(self,x,y):
         NeighborsList = []
         
