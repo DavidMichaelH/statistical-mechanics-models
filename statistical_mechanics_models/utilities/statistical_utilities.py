@@ -18,6 +18,6 @@ class StatisticalUtilities:
                     
             
     
-    def EmpericalEdgeWeightDistribution(path):
+    def EmpericalWeightDistribution(list):
         pass
     
