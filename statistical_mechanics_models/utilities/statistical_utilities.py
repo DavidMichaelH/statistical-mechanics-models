@@ -3,7 +3,6 @@
 class StatisticalUtilities:
     
     
-    #Maybe sort the 
     def NumberOfValuesInListLargerThanX(LIST,X, strictlyLarger = True ):
         counter = 0;
         if strictlyLarger:
@@ -19,7 +18,6 @@ class StatisticalUtilities:
                     
             
     
-    #Maybe sort the 
-    def EmpericalEdgeWeightDistribution(path):
+    def EmpericalWeightDistribution(LIST):
         pass
     
