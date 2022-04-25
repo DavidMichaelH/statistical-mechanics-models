@@ -69,8 +69,6 @@ class TwoSidedRrwWithJumps(SpecialMixedDensity):
                 return 1/self.u
             
     def Alpha(self,x):
-        if self.B == self.A:
-            return self.alphaA 
         val = (self.alphaB - self.alphaA)*(x - self.A)/(self.B-self.A) + self.alphaA 
         return val
         
