@@ -8,10 +8,9 @@ class TwoSidedRrwWithJumps(SpecialMixedDensity):
     
     def __init__(self,a = 1, b = 2):
         super().__init__()
+        self.RelativeStepSize = 0.1
         self.A = a
         self.B = b
-        self.RelativeStepSize = 0.1
-        
         self.alphaA = 0.25
         self.alphaB = 0.15
         
@@ -70,6 +69,8 @@ class TwoSidedRrwWithJumps(SpecialMixedDensity):
                 return 1/self.u
             
     def Alpha(self,x):
+        if self.B == self.A:
+            return self.alphaA 
         val = (self.alphaB - self.alphaA)*(x - self.A)/(self.B-self.A) + self.alphaA 
         return val
         
