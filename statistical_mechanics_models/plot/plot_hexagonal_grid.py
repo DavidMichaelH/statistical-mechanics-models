@@ -105,18 +105,10 @@ class HexPlot:
         
         
         
-        if colorMap == "RdBu":
-            cmap = cm.RdBu
-        elif colorMap == "coolwarm":
-            cmap = cm.coolwarm
-        elif colorMap == "viridis":
-            cmap = cm.viridis
-        elif colorMap == "cool":
-            cmap = cm.cool
-        elif colorMap == "copper":
-            cmap = cm.copper
-        else:
-            cmap = cm.hot
+        try:
+          cmap = cm.get_cmap(colorMap)
+        except:
+          cmap = cm.hot
         
         
         m = cm.ScalarMappable(norm=norm, cmap=cmap)
