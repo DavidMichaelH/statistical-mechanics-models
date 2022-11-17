@@ -91,10 +91,10 @@ class GeoLogic:
         
         plt.imshow(self.geoLogicPane.terrain_heightmap,'magma')
                
-        point = self.corrdinate_to_array(g.pointA)
+        point = self.corrdinate_to_array(self.pointA)
         plt.scatter(point[0],point[1], s=20, c='r', marker='o')
         
-        point = self.corrdinate_to_array(g.pointB)
+        point = self.corrdinate_to_array(self.pointB)
         plt.scatter(point[0],point[1], s=20, c='b', marker='o')
         
  
