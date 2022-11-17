@@ -1,7 +1,7 @@
 # StatisticalMechanicsModels
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/DavidMichaelH/StatisticalMechanicsModels/main/.github/images/CrossingFPPGlamourShot.PNG" style="width:500px;height:300px;">
+  <img src="/.github/images/LeftRightCrossing.png" style="width:600px;height:400px;">
   <br>
   <em>Figure: Geodesic crossing. Computed using the code found in this repository (statistical_mechanical_models) </em>
 </div>
@@ -10,7 +10,7 @@
 Statistical mechanics models such as random cluster models, random growth models and related processes.
 
 
-<img src="/.github/images/LeftRightCrossing.png" style="width:500px;height:300px;">
+
 
 
 ## Contributing
