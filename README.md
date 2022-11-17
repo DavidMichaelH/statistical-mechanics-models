@@ -10,6 +10,8 @@
 Statistical mechanics models such as random cluster models, random growth models and related processes.
 
 
+<img src="/.github/images/LeftRightCrossing.png" style="width:500px;height:300px;">
+
 
 ## Contributing
 
