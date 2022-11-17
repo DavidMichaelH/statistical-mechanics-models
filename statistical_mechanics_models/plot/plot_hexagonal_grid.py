@@ -161,4 +161,9 @@ class HexPlot:
          
 
 
+    def SaveFigure(self,directory_and_filename):
+        #, bbox_inches='tight'
+        self.plt.savefig(directory_and_filename)
+         
+
         
