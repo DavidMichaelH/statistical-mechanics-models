@@ -1,19 +1,18 @@
 from graphs.square_lattice import SquareLattice
 from first_passage_percolation.fpp import FPP
-import random
-import math
 import numpy as np
-
+import math
+from PIL import Image
+import requests
+from io import BytesIO
+from numpy import asarray
 import matplotlib.pyplot as plt
-from matplotlib import cm
-from matplotlib.pyplot import figure
-import matplotlib.image as mpimg
 
 
 class GeoLogicPane:
 
     
-    def __init__(self,file_path,nw_corner,se_corner):
+    def __init__(self,nw_corner):
         
         self.terrain_img = None
         
@@ -21,112 +20,171 @@ class GeoLogicPane:
         self.terrain_res = self.terrain_increment_distance
         self.terrain_heightmap = None 
 
-        self.terrain_img_file_path = file_path 
+
         self.nw_corner = nw_corner
-        self.se_corner = se_corner
-        
-        
-        self.cartographic = None 
-        self.cartographic_downsample = None 
-        
-        self.import_terrain_file(self.terrain_img_file_path)
-        
+        self.se_corner = (nw_corner[0]-1,nw_corner[1]+1)
+
+        self.get_srtm_terrain_map_from_usgs(self.nw_corner)
+
                 
         
     def rgb2gray(self,rgb):
         return np.dot(rgb[...,:3], [0.2989, 0.5870, 0.1140])
 
 
-    """
-        Appears to have issues reading in jpg so we need 
-        to convert to png using gimp or something
-    """
-    def import_terrain_file(self,file_path):
-        self.terrain_img = mpimg.imread(file_path)  
-        
-        if len(self.terrain_img.shape) > 2:
-            print(self.terrain_img)
-            self.terrain_img = self.rgb2gray(self.terrain_img)    
-        
-        self.terrain_heightmap = self.terrain_img
-        
+
         
     def display_terrain(self):
         plt.imshow(self.terrain_img)
-        #plt.show()
-        
-        
+
     def subsample_terrain(self,sample_interval):
         self.terrain_heightmap = self.terrain_img[::sample_interval,::sample_interval]
-        self.cartographic_downsample = self.cartographic[::sample_interval,::sample_interval,:]
-        
+
     def get_terrain_shape(self):
         return self.terrain_heightmap.shape 
-        
-    
-    def assign_cartographic(self,file_path):
-        self.cartographic = mpimg.imread(file_path)  
-        print(self.cartographic.shape)
-    
+
+    def get_srtm_terrain_map_from_usgs(self,nw_corner):
+
+        lat = abs(nw_corner[1])
+
+        long_str = str(nw_corner[0]-1)
+
+        if lat < 100:
+            lat_str = "0" + str(lat)
+        else:
+            lat_str = str(lat)
+
+        url_ending = lat_str + "/n" + long_str + "_w" + lat_str + "_1arc_v3.jpg"
+
+        url = f"https://ims.cr.usgs.gov/browse/srtm_v3/1arc/w" + url_ending
+
+
+        response = requests.get(url)
+        img = Image.open(BytesIO(response.content))
+
+        self.terrain_img = asarray(img) / 256.0
+
     
         
 class GeoLogic:
 
     
-    def __init__(self,file_path,nw_corner,se_corner):
+    def __init__(self,nw_corner):
         
-        self.geoLogicPane = GeoLogicPane(file_path,nw_corner,se_corner)
+        self.geoLogicPane = GeoLogicPane(nw_corner)
         
         self.pointA = None
         self.pointB = None
          
-        
-        self.distance_map = None 
+
         self.weight_map = None #square lattice 
         self.geoLogicFpp = None
         self.shortest_path_field = None 
-        self.geodesic = None 
+        self.geodesic = None
+
+    def check_points_in_same_chunk(self,p,q):
+        long = math.ceil(p[0])
+        lat = math.floor(p[1])
+
+        C1 = self.geoLogicPane.nw_corner == (long,lat)
+        C2 = (int(p[0]) == int(q[0]))
+        C3 = (int(p[1]) == int(q[1]))
+        return C1 and C2 and C3
+
+    def compute_geodesic_between_coordinates(self,p,q):
+
+        if not self.check_points_in_same_chunk(p,q):
+            print("The given points are invalid")
+            return
+
+        self.pointA = p
+        self.pointB = q
+
+        self.compute_weight_map()
+        self.compute_distance_map()
+        self.compute_geodesic()
+
          
     def display_terrain(self):
         
         plt.imshow(self.geoLogicPane.terrain_heightmap,'magma')
                
-        point = self.corrdinate_to_array(self.pointA)
+        point = self.geocoordinate_to_indices(self.pointA)
         plt.scatter(point[0],point[1], s=20, c='r', marker='o')
         
-        point = self.corrdinate_to_array(self.pointB)
+        point = self.geocoordinate_to_indices(self.pointB)
         plt.scatter(point[0],point[1], s=20, c='b', marker='o')
         
  
-    def geocorrdinate_to_index(self,cordinate,start_corrdinate,end_corrdinate,int_length):
-        frac = (cordinate-start_corrdinate)/(end_corrdinate - start_corrdinate)
+    def geocoordinate_to_index(self,coordinate,start_coordinate,end_coordinate,int_length):
+        frac = (coordinate-start_coordinate)/(end_coordinate - start_coordinate)
         index = int(frac*int_length)
-        return index 
+        return index
+
+    def index_to_geocoordinate(self,index,start_coordinate,end_coordinate,int_length):
+        coordinate = start_coordinate + (end_coordinate - start_coordinate)*(index/int_length)
+        return coordinate
+
         
-    def corrdinate_to_array(self,point):
-        
-        
+    def geocoordinate_to_indices(self,point):
+
         terrain_shape = self.geoLogicPane.get_terrain_shape()
         
         #x corresponds to lattitude
         pa = self.geoLogicPane.nw_corner[1]
         pb = self.geoLogicPane.se_corner[1]
         length = terrain_shape[0]
-        index_x = self.geocorrdinate_to_index(point[1],pa,pb,length)
+        index_x = self.geocoordinate_to_index(point[1],pa,pb,length)
                 
         #y corresponds to longitude 
                 
         pa = self.geoLogicPane.nw_corner[0]
         pb = self.geoLogicPane.se_corner[0]
         length = terrain_shape[1]
-        index_y = self.geocorrdinate_to_index(point[0],pa,pb,length)
+        index_y = self.geocoordinate_to_index(point[0],pa,pb,length)
         
         return (index_x,index_y)
-    
-    
-    
-    
-    """
+
+
+
+    def indices_to_geocoordinate(self,indices):
+
+        terrain_shape = self.geoLogicPane.get_terrain_shape()
+
+        # x corresponds to lattitude
+        pa = self.geoLogicPane.nw_corner[1]
+        pb = self.geoLogicPane.se_corner[1]
+        length = terrain_shape[0]
+        geocoord_x = self.index_to_geocoordinate(indices[1], pa, pb, length)
+
+        # y corresponds to longitude
+
+        pa = self.geoLogicPane.nw_corner[0]
+        pb = self.geoLogicPane.se_corner[0]
+        length = terrain_shape[1]
+        geocoord_y = self.index_to_geocoordinate(indices[0], pa, pb, length)
+
+        return (geocoord_y,geocoord_x)
+
+    def get_geodesic_as_geocoordinates(self):
+        geocoordinates = []
+
+
+        itr = 0
+
+        while itr < len(self.geodesic[1]):
+            i = self.geodesic[0][itr]
+            j = self.geodesic[1][itr]
+            geocoordinate = self.indices_to_geocoordinate((i, j))
+            geocoordinates.append(geocoordinate)
+
+            itr += 1
+        return geocoordinates
+
+
+
+
+    """"
     we might choose to use different subsampling methods which do things like 
     maxpool or take averages. 
     """
@@ -139,9 +197,7 @@ class GeoLogic:
         return self.geoLogicPane.get_terrain_shape()
         
     def compute_weight_map(self):
-        
-        
-        
+
         height = self.geoLogicPane.terrain_heightmap.shape[0]
         width = self.geoLogicPane.terrain_heightmap.shape[1] 
         
@@ -172,7 +228,7 @@ class GeoLogic:
     
     def compute_distance_map(self):
         
-        x = self.corrdinate_to_array(self.pointA)
+        x = self.geocoordinate_to_indices(self.pointA)
         start_node = (x[1],x[0])
    
         self.geoLogicFpp = FPP(self.weight_map,start_node = start_node)
@@ -184,16 +240,12 @@ class GeoLogic:
    
     def compute_geodesic(self):
         
-        x = self.corrdinate_to_array(self.pointB)
+        x = self.geocoordinate_to_indices(self.pointB)
         end_node = (x[1],x[0])
 
         self.geodesic = self.geoLogicFpp.ComputeGeodesic(end_node)
 
     def show_geodesic(self):
         plt.plot(self.geodesic[1],self.geodesic[0],"-r")
-   
-    def assign_cartographic(self,filepath):
-        self.geoLogicPane.assign_cartographic(filepath)
+
         
-    def show_cartographic(self):
-        plt.imshow(self.geoLogicPane.cartographic_downsample)
