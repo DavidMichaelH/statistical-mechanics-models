@@ -6,7 +6,7 @@ class TriangularLattice(PlanarWeightedLattice):
  
         
  
-    def GenerateNeighbors(self,x,y):
+    def generate_neighbors(self, x, y):
         NeighborsList = []
         
         if y < self.height-1:

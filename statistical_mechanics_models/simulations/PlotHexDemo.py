@@ -14,7 +14,7 @@ start = timer()
 height = 100
 width = 100
 myTriangularLattice = TriangularLattice()
-myTriangularLattice.CreateLattice(height, width)
+myTriangularLattice.create_lattice(height, width)
 #So far a graph has been defined but has zero vertex/edge weights and 
 #and only contains topological data  
 
@@ -45,17 +45,17 @@ def MyVertexWeight():
 # Initialize vertices
 for w in range(0, width):
     for h in range(0, height):
-        myTriangularLattice.SetVertexWeight((w, h), MyVertexWeight())
+        myTriangularLattice.set_vertex_weight((w, h), MyVertexWeight())
         
 for w in range(0, width):
     for h in range(0, height):
-        myTriangularLattice.SetVertexWeight((w, h), MyVertexWeight())
+        myTriangularLattice.set_vertex_weight((w, h), MyVertexWeight())
         
 
 # Setting all weight on the Vertical Boundaries to zero
 for h in range(0,height-1):
-    myTriangularLattice.SetVertexWeight((width-1,h), 0)
-    myTriangularLattice.SetVertexWeight((0,h), 0)
+    myTriangularLattice.set_vertex_weight((width - 1, h), 0)
+    myTriangularLattice.set_vertex_weight((0, h), 0)
 
         
         

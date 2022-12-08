@@ -4,7 +4,7 @@ from graphs.planar_weighted_lattice import PlanarWeightedLattice
 class SquareLattice(PlanarWeightedLattice):
     
     #This could be overridden from some generic class 
-    def GenerateNeighbors(self,w,h):
+    def generate_neighbors(self, w, h):
         NeighborsList = []
         
         if h < self.height-1:
