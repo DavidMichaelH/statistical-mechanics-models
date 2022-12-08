@@ -16,6 +16,17 @@ class Graph:
         """
         return self.nodes_dict.keys()
 
+    def get_edges(self):
+        """
+        Returns a list of the edges in the graph.
+        :return: A list of the edges in the graph.
+        """
+        edges = []
+        for node in self.adj_dict:
+            for neighbor in self.adj_dict[node]:
+                edges.append((node, neighbor))
+        return edges
+
     def get_vertex_value(self, node):
         """
         Returns the value of a node.

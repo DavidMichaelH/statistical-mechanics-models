@@ -3,38 +3,50 @@ from graphs.planar_weighted_lattice import PlanarWeightedLattice
 
 
 class TriangularLattice(PlanarWeightedLattice):
- 
-        
- 
-    def generate_neighbors(self, x, y):
-        NeighborsList = []
-        
-        if y < self.height-1:
-            NeighborsList.append((x,y+1))
-        
-        if y > 0:
-            NeighborsList.append((x,y-1))
+
+    def __init__(self, width, height):
+        super().__init__(width, height)
+        self.directed_lattice = False
+
+
+    # generates the neighbors of a node in a square lattice
+    def generate_neighbors(self, w, h):
+        """
+        Generates the neighbors of a node in a square lattice.
+
+        :param w: The x-coordinate of the node.
+        :param h: The y-coordinate of the node.
+        :return: A list of tuples representing the neighboring nodes.
+        """
             
-        if x < self.width-1:
-            NeighborsList.append((x+1,y))
+        neighbors_list = []
+
+        # add the top and bottom neighbors if they exist
+        if h < self.height-1:
+            neighbors_list.append((w, h+1))
+        
+        if h > 0:
+            neighbors_list.append((w, h-1))
+
+        # add the lower left and right neighbors if they exist
+        if w < self.width-1:
+            neighbors_list.append((w+1, h))
             
-        if x > 0:
-            NeighborsList.append((x-1,y))
-            
-        if x%2 == 0:
-            if x>0 and y > 0:
-                NeighborsList.append((x-1,y-1))
-            if x < self.width-1 and y > 1:
-                NeighborsList.append((x+1,y-1))
+        if w > 0:
+            neighbors_list.append((w-1, h))
+
+        # add the upper left and right neighbors if they exist
+        if w % 2 == 0:
+            if w > 0 and h > 0:
+                neighbors_list.append((w-1, h-1))
+            if w < self.width-1 and h > 1:
+                neighbors_list.append((w+1, h-1))
         else:
-            if x>0 and y <self.height-1:
-                NeighborsList.append((x-1,y+1))
-            if x < self.width-1 and y <self.height-1:
-                NeighborsList.append((x+1,y+1))
+            if w > 0 and h < self.height-1:
+                neighbors_list.append((w-1, h+1))
+            if w < self.width-1 and h < self.height-1:
+                neighbors_list.append((w+1, h+1))
             
-        return NeighborsList
-         
-          
-         
-        
+        return neighbors_list
+
  
