@@ -5,7 +5,7 @@ Welcome to the statistical mechanics simulations repository! This is a growing c
 
 
 <div align="center">
-  <img src="/.github/images/LeftRightCrossing.png" style="width:600px;height:400px;">
+  <img src="/.github/images/LimitShape.png" style="width:600px;height:400px;">
   <br>
   <em>Figure: Geodesic crossing. Computed using the code found in this repository (statistical_mechanical_models) </em>
 </div>
