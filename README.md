@@ -17,7 +17,11 @@ To use these tools, we recommend running the simulations in Google Colab or a Ju
 
 To get started, simply clone this repository to your local machine and open the Jupyter notebook or Colab notebook of your choice.
  
+**Quick Start to Simulations:**
 
+Click the button below to get up and running with a demo where you simulate the limit shape in FPP!
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/DavidMichaelH/StatisticalMechanicsModels/blob/master/LimitShapeDemo.ipynb)
 
 ## Contributing
 
