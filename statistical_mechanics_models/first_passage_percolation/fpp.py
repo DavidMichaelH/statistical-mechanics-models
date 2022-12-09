@@ -13,12 +13,11 @@ class FPP:
         self.distance_map = None
         self.distance_field_list = None
 
-    def SetGraphAndStartNode(self, graph, start_node):
+    def set_graph_and_start_node(self, graph, start_node):
         self.graph = graph
         self.start_node = start_node
 
-    def ComputeDistanceField(self):
-        
+    def compute_distance_field(self):
         self.dijkstra()
         self.distance_field_to_multi_dim_list()
 
@@ -125,6 +124,7 @@ class FPP:
         # creates a list of lists that is the same size as the graph.
         self.distance_field_list = [
             [0] * self.graph.width for i in range(self.graph.height)]
+
         for node in self.distance_map.keys():
             self.distance_field_list[node[1]][node[0]] = self.distance_map[node]
 
@@ -169,7 +169,7 @@ class FPP:
 
     #Returns passage time from self.startnode 
     #to the boundary
-    def PassageTimeToBoundary(self):
+    def passage_time_to_boundary(self):
         """
         Compute the passage time from the start node to the boundary, and return the minimum value and coordinates.
         """

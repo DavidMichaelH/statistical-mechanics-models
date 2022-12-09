@@ -207,7 +207,7 @@ class GeoLogic:
         start_node = (x[1], x[0])
 
         self.geoLogicFpp = FPP(self.weight_map, start_node=start_node)
-        self.shortest_path_field = self.geoLogicFpp.ComputeDistanceField()
+        self.shortest_path_field = self.geoLogicFpp.compute_distance_field()
 
     def show_distance_map(self):
         plt.imshow(self.shortest_path_field, 'magma')

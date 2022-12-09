@@ -65,25 +65,25 @@ START_NODE = (0,height//2)
 #START_NODE = (width//2,height//2)
 
 myFppModel = FPP(myTriangularLattice,start_node = START_NODE)
-shortest_path_field = myFppModel.ComputeDistanceField()
+shortest_path_field = myFppModel.compute_distance_field()
 
-#passageTime , TARGET_NODE = myFppModel.PassageTimeToBoundary()
+#passageTime , TARGET_NODE = myFppModel.passage_time_to_boundary()
 #print("Passage time = " + str(passageTime))
 TARGET_NODE = (width-1,height//2)
 
-#passageTimeToBoundary , TARGET_NODE = myFppModel.PassageTimeToBoundary()
+#passageTimeToBoundary , TARGET_NODE = myFppModel.passage_time_to_boundary()
 
 Geodesic = myFppModel.compute_geodesic(TARGET_NODE)
 
  
 hexPlot = HexPlot()
-hexPlot.PlotHexagonalGrid(shortest_path_field,continuousColor="seismic") 
+hexPlot.plot_hexagonal_grid(shortest_path_field, continuousColor="seismic")
 hexPlot.PlotPath(Geodesic,pathColor="green",linewidth = 0.8,markersize=0.8)
 now = datetime.now()
 plotName =  "CoolPlot_" +   now.strftime("%H_%M_%S") + ".pdf"
 directory = "C:/"
 #hexPlot.SaveFigure(directory + plotName) #uncomment if you want to save
-hexPlot.Show()   
+hexPlot.show()
 
 end = timer()
 

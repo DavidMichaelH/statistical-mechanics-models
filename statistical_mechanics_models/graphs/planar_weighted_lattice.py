@@ -27,7 +27,7 @@ class PlanarWeightedLattice(Graph):
                     self.add_edge((x, y), neighbor, directed_edge=self.directed_lattice)
 
     def get_edge_weights_on_path(self, xpath: List[int], ypath: List[int]) -> List[int]:
-        edge_weights = [];
+        edge_weights = []
 
         for itr in range(len(xpath) - 1):
             edge_weights.append(self.get_edge_weight((xpath[itr], ypath[itr]), (xpath[itr + 1], ypath[itr + 1])))
