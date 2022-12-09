@@ -73,7 +73,7 @@ TARGET_NODE = (width-1,height//2)
 
 #passageTimeToBoundary , TARGET_NODE = myFppModel.PassageTimeToBoundary()
 
-Geodesic = myFppModel.ComputeGeodesic(TARGET_NODE)
+Geodesic = myFppModel.compute_geodesic(TARGET_NODE)
 
  
 hexPlot = HexPlot()

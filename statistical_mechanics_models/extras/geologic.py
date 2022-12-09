@@ -180,8 +180,7 @@ class GeoLogic:
         height = self.geoLogicPane.terrain_heightmap.shape[0]
         width = self.geoLogicPane.terrain_heightmap.shape[1]
 
-        self.weight_map = SquareLattice()
-        self.weight_map.create_lattice(height, width)
+        self.weight_map = SquareLattice(height, width)
 
         for w in range(0, width):
             for h in range(0, height):
@@ -218,7 +217,7 @@ class GeoLogic:
         x = self.geocoordinate_to_indices(self.point_b)
         end_node = (x[1], x[0])
 
-        self.geodesic = self.geoLogicFpp.ComputeGeodesic(end_node)
+        self.geodesic = self.geoLogicFpp.compute_geodesic(end_node)
 
     def show_geodesic(self):
         plt.plot(self.geodesic[1], self.geodesic[0], "-r")
