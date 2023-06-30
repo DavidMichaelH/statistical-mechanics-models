@@ -1,12 +1,12 @@
+import math
+from io import BytesIO
+import numpy as np
+import requests
+from PIL import Image
+import matplotlib.pyplot as plt
+
 from graphs.square_lattice import SquareLattice
 from first_passage_percolation.fpp import FPP
-import numpy as np
-import math
-from PIL import Image
-import requests
-from io import BytesIO
-from numpy import asarray
-import matplotlib.pyplot as plt
 
 
 class GeoLogicPane:
@@ -20,9 +20,12 @@ class GeoLogicPane:
         self.terrain_heightmap = None
 
         self.nw_corner = nw_corner
-        self.se_corner = (nw_corner[0] - 1, nw_corner[1] + 1)
+        self.se_corner = (nw_corner[0] + 1, nw_corner[1] + 1)
 
-        self.get_srtm_terrain_map_from_usgs(self.nw_corner)
+        if nw_corner is not None:
+            self.get_srtm_terrain_map_from_usgs(self.nw_corner)
+
+     
 
     def rgb_2_gray(self, rgb):
         return np.dot(rgb[..., :3], [0.2989, 0.5870, 0.1140])
@@ -40,9 +43,13 @@ class GeoLogicPane:
 
         lat = abs(nw_corner[1])
 
-        long_str = str(nw_corner[0] - 1)
+     
+        long_str = str(nw_corner[0]) 
 
-        if lat < 100:
+        if lat < 10:
+            lat_str = "00" + str(lat)
+
+        elif lat < 100:
             lat_str = "0" + str(lat)
         else:
             lat_str = str(lat)
@@ -54,12 +61,13 @@ class GeoLogicPane:
         response = requests.get(url)
         img = Image.open(BytesIO(response.content))
 
-        self.terrain_img = asarray(img) / 256.0
+        self.terrain_img = np.asarray(img) / 256.0
+        self.terrain_img = np.flip(self.terrain_img , axis=0)
 
 
 class GeoLogic:
 
-    def __init__(self, nw_corner):
+    def __init__(self, nw_corner = None):
 
         self.geoLogicPane = GeoLogicPane(nw_corner)
 
@@ -72,7 +80,7 @@ class GeoLogic:
         self.geodesic = None
 
     def check_points_in_same_chunk(self, p, q):
-        long = math.ceil(p[0])
+        long = math.floor(p[0])
         lat = math.floor(p[1])
 
         c1 = self.geoLogicPane.nw_corner == (long, lat)
@@ -116,39 +124,39 @@ class GeoLogic:
 
         terrain_shape = self.geoLogicPane.get_terrain_shape()
 
-        # x corresponds to lattitude
+        # y corresponds to lattitude
         point_a = self.geoLogicPane.nw_corner[1]
         point_b = self.geoLogicPane.se_corner[1]
-        length = terrain_shape[0]
-        index_x = self.geocoordinate_to_index(point[1], point_a, point_b, length)
+        length = terrain_shape[1]
+        index_y = self.geocoordinate_to_index(point[1], point_a, point_b, length)
 
-        # y corresponds to longitude
+        # x corresponds to longitude
 
         point_a = self.geoLogicPane.nw_corner[0]
         point_b = self.geoLogicPane.se_corner[0]
-        length = terrain_shape[1]
-        index_y = self.geocoordinate_to_index(point[0], point_a, point_b, length)
+        length = terrain_shape[0]
+        index_x = self.geocoordinate_to_index(point[0], point_a, point_b, length)
 
-        return (index_x, index_y)
+        return (index_x,index_y)
 
     def indices_to_geocoordinate(self, indices):
 
         terrain_shape = self.geoLogicPane.get_terrain_shape()
 
-        # x corresponds to lattitude
+        # y corresponds to lattitude
         point_a = self.geoLogicPane.nw_corner[1]
         point_b = self.geoLogicPane.se_corner[1]
-        length = terrain_shape[0]
-        geocoord_x = self.index_to_geocoordinate(indices[1], point_a, point_b, length)
+        length = terrain_shape[1]
+        geocoord_y = self.index_to_geocoordinate(indices[1], point_a, point_b, length)
 
-        # y corresponds to longitude
+        # x corresponds to longitude
 
         point_a = self.geoLogicPane.nw_corner[0]
         point_b = self.geoLogicPane.se_corner[0]
-        length = terrain_shape[1]
-        geocoord_y = self.index_to_geocoordinate(indices[0], point_a, point_b, length)
+        length = terrain_shape[0]
+        geocoord_x = self.index_to_geocoordinate(indices[0], point_a, point_b, length)
 
-        return (geocoord_y, geocoord_x)
+        return (geocoord_x, geocoord_y)
 
     def get_geodesic_as_geocoordinates(self):
         geocoordinates = []
@@ -177,24 +185,42 @@ class GeoLogic:
 
     def compute_weight_map(self):
 
-        height = self.geoLogicPane.terrain_heightmap.shape[0]
-        width = self.geoLogicPane.terrain_heightmap.shape[1]
+        width = self.geoLogicPane.terrain_heightmap.shape[0]
+        height = self.geoLogicPane.terrain_heightmap.shape[1]
+        
 
-        self.weight_map = SquareLattice(height, width)
+        self.weight_map = SquareLattice(width,height)
 
         for w in range(0, width):
             for h in range(0, height):
-                node = (w, h)
-                node_w = (w + 1, h)
+                node = (w,h)
+                node_w = (w + 1,h)
                 node_h = (w, h + 1)
 
                 if w + 1 < width:
                     weight_w = self.compute_edge_weight(node, node_w)
-                    self.weight_map.set_edge_weight(node, node_w, weight_w, directed_edge=False)
+                    
+                    try:
+                        self.weight_map.set_edge_weight(node, node_w, weight_w, directed_edge=False)
+                    except:
+                        print("w: ", w,"width: ", width,"h: ", h,"height: ", height)
+                        print("node: ", node, "node_w: ", node_w)
+                        self.weight_map.set_edge_weight(node, node_w, weight_w, directed_edge=False)
+                    
+                        
 
-                if h + 1 < height:
+                if h + 1 < height:                        
                     weight_h = self.compute_edge_weight(node, node_h)
-                    self.weight_map.set_edge_weight(node, node_h, weight_h, directed_edge=False)
+
+                    try:
+                        self.weight_map.set_edge_weight(node, node_h, weight_h, directed_edge=False)
+                    except:
+                        print("h: ", h,"height: ", height)
+                        print("node: ", node, "node_h: ", node_h)
+                        self.weight_map.set_edge_weight(node, node_h, weight_h, directed_edge=False)
+                    #self.weight_map.set_edge_weight(node, node_h, weight_h, directed_edge=False)
+                        
+        #print("weight_map: ", self.weight_map.get_edges())
 
     def compute_edge_weight(self, node1, node2):
         edge_weight = math.sqrt(self.geoLogicPane.terrain_res ** 2 + (
@@ -204,8 +230,8 @@ class GeoLogic:
     def compute_distance_map(self):
 
         x = self.geocoordinate_to_indices(self.point_a)
-        start_node = (x[1], x[0])
-
+        start_node = (x[0], x[1])
+        print(start_node)
         self.geoLogicFpp = FPP(self.weight_map, start_node=start_node)
         self.shortest_path_field = self.geoLogicFpp.compute_distance_field()
 
@@ -215,9 +241,9 @@ class GeoLogic:
     def compute_geodesic(self):
 
         x = self.geocoordinate_to_indices(self.point_b)
-        end_node = (x[1], x[0])
+        end_node = (x[0], x[1])
 
         self.geodesic = self.geoLogicFpp.compute_geodesic(end_node)
 
     def show_geodesic(self):
-        plt.plot(self.geodesic[1], self.geodesic[0], "-r")
+        plt.plot(self.geodesic[0], self.geodesic[1], "-r")

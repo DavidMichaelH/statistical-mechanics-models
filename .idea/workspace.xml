@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc960fde-1f76-4fcf-a574-d0a7c67c6e2f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/statistical_mechanics_models/extras/geologic.py" beforeDir="false" afterPath="$PROJECT_DIR$/statistical_mechanics_models/extras/geologic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/statistical_mechanics_models/first_passage_percolation/fpp.py" beforeDir="false" afterPath="$PROJECT_DIR$/statistical_mechanics_models/first_passage_percolation/fpp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/statistical_mechanics_models/mcmc/finite_discrete.py" beforeDir="false" afterPath="$PROJECT_DIR$/statistical_mechanics_models/mcmc/finite_discrete.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/statistical_mechanics_models/mcmc/metropolis_hastings.py" beforeDir="false" afterPath="$PROJECT_DIR$/statistical_mechanics_models/mcmc/metropolis_hastings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +23,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/statistical_mechanics_models" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../machine-learning" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager">
